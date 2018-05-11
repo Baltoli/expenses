@@ -62,7 +62,7 @@ class Expense(Resource):
             if result is not None:
                 return jsonify(result)
             else:
-                return {'id', exp_id}, 404
+                return {'id': exp_id}, 404
 
     def post(self):
         json_data = request.get_json()
@@ -87,6 +87,10 @@ class Expense(Resource):
                 return jsonify(obj)
             else:
                 return jsonify({'id' : row}), 404
+
+    def delete(self, exp_id):
+        query_db('delete from expenses where id = ?', (exp_id,))
+        return { 'id' : exp_id }
 
 api.add_resource(Expense, 
         '/expense',
